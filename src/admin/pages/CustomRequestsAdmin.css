@@ -1,0 +1,126 @@
+.custom-requests-admin-page {
+  display: grid;
+  gap: 24px;
+}
+
+.custom-requests-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 22px;
+}
+
+.custom-request-card {
+  display: grid;
+  gap: 16px;
+  padding: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 26px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03)),
+    rgba(255, 255, 255, 0.03);
+  box-shadow:
+    0 18px 38px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.custom-request-card-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.custom-request-ref {
+  margin: 0 0 6px;
+  color: #c6a46c;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.custom-request-card h4 {
+  margin: 0;
+  color: #f5f5f5;
+  font-size: 1.2rem;
+}
+
+.custom-request-client {
+  display: grid;
+  gap: 4px;
+}
+
+.custom-request-client strong {
+  color: #f5f5f5;
+}
+
+.custom-request-client span {
+  color: #bfae9f;
+}
+
+.custom-request-image {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 20px;
+}
+
+.custom-request-description {
+  margin: 0;
+  color: #ddd6cb;
+  line-height: 1.75;
+}
+
+.custom-request-details {
+  display: grid;
+  gap: 10px;
+}
+
+.custom-request-details p {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.custom-request-details span {
+  color: #8be0b6;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.custom-request-details strong {
+  color: #f5f5f5;
+  text-align: right;
+}
+
+.custom-request-actions {
+  margin-top: 6px;
+}
+
+.custom-request-actions .primary-btn {
+  width: 100%;
+  justify-content: center;
+}
+
+@media (max-width: 640px) {
+  .custom-requests-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .custom-request-card-head,
+  .custom-request-details p {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .custom-request-details strong {
+    text-align: left;
+  }
+}

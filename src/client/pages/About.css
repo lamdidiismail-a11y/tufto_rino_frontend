@@ -1,0 +1,257 @@
+.about-page {
+  min-height: 100vh;
+  color: #f5f5f5;
+  background:
+    radial-gradient(circle at top left, rgba(198, 164, 108, 0.16), transparent 28%),
+    radial-gradient(circle at top right, rgba(46, 125, 107, 0.22), transparent 24%),
+    linear-gradient(135deg, #0f0f0f 0%, #171310 46%, #0d1c17 100%);
+  overflow-x: hidden;
+}
+
+.about-main {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 128px 24px 72px;
+  display: grid;
+  gap: 88px;
+}
+
+.about-hero {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 42px;
+  align-items: center;
+}
+
+.about-eyebrow,
+.about-section-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: #c6a46c;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.about-eyebrow::before,
+.about-section-kicker::before {
+  content: "";
+  width: 34px;
+  height: 1px;
+  background: linear-gradient(90deg, #c6a46c, transparent);
+}
+
+.about-hero-copy {
+  display: grid;
+  gap: 22px;
+}
+
+.about-hero-copy h1,
+.about-video-copy h2,
+.about-values-header h2,
+.about-story-card h2,
+.about-craft-copy h2 {
+  margin: 0;
+  color: #f5f5f5;
+  line-height: 1.04;
+}
+
+.about-hero-copy h1 {
+  font-size: clamp(2.8rem, 5vw, 4.9rem);
+  letter-spacing: -0.06em;
+  max-width: 720px;
+}
+
+.about-hero-copy p,
+.about-story-card p,
+.about-craft-copy p,
+.about-video-copy p,
+.about-value-card p {
+  margin: 0;
+  color: #c7bcae;
+  line-height: 1.85;
+}
+
+.about-hero-card {
+  position: relative;
+  min-height: 520px;
+  overflow: hidden;
+  border-radius: 34px;
+  background:
+    radial-gradient(circle at top left, rgba(198, 164, 108, 0.2), transparent 32%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+  border: 1px solid rgba(198, 164, 108, 0.12);
+  box-shadow:
+    0 28px 70px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.about-hero-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.about-story-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.about-story-card,
+.about-value-card {
+  display: grid;
+  gap: 18px;
+  padding: 32px;
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.055);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 18px 50px rgba(0, 0, 0, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(14px);
+}
+
+.about-craft-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 26px;
+  align-items: center;
+  padding: 38px;
+  border-radius: 34px;
+  background:
+    radial-gradient(circle at top right, rgba(46, 125, 107, 0.2), transparent 28%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+  border: 1px solid rgba(198, 164, 108, 0.12);
+  box-shadow:
+    0 24px 56px rgba(0, 0, 0, 0.26),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.about-craft-icon {
+  width: 78px;
+  height: 78px;
+  border-radius: 24px;
+  display: grid;
+  place-items: center;
+  font-size: 2rem;
+  color: #0f100f;
+  background: linear-gradient(135deg, #d5b276, #a67e3e);
+}
+
+.about-craft-copy {
+  display: grid;
+  gap: 16px;
+}
+
+.about-video-section {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 28px;
+  align-items: center;
+}
+
+.about-video-copy {
+  display: grid;
+  gap: 18px;
+}
+
+.about-video-card {
+  padding: 18px;
+  border-radius: 30px;
+  background:
+    radial-gradient(circle at top left, rgba(198, 164, 108, 0.14), transparent 26%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.03));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 20px 52px rgba(0, 0, 0, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.about-video {
+  width: 100%;
+  max-height: 420px;
+  border-radius: 22px;
+  display: block;
+  background: #080808;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.28);
+}
+
+.about-values-section {
+  display: grid;
+  gap: 24px;
+}
+
+.about-values-header {
+  display: grid;
+  gap: 14px;
+  max-width: 720px;
+}
+
+.about-values-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.about-value-card h3 {
+  margin: 0;
+  color: #f5f5f5;
+  font-size: 1.25rem;
+}
+
+@media (max-width: 1024px) {
+  .about-hero,
+  .about-video-section {
+    grid-template-columns: 1fr;
+  }
+
+  .about-values-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .about-main {
+    padding: 104px 18px 48px;
+    gap: 62px;
+  }
+
+  .about-hero-card {
+    min-height: 380px;
+  }
+
+  .about-story-grid,
+  .about-values-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .about-craft-card {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-hero-copy h1 {
+    font-size: 2.3rem;
+  }
+
+  .about-story-card,
+  .about-value-card,
+  .about-craft-card,
+  .about-video-card {
+    padding: 24px 20px;
+    border-radius: 24px;
+  }
+
+  .about-hero-card {
+    min-height: 300px;
+  }
+
+  .about-video {
+    max-height: 240px;
+  }
+}

@@ -1,0 +1,203 @@
+.products-page {
+  min-height: 100vh;
+  color: #f5f5f5;
+  background:
+    radial-gradient(circle at top left, rgba(198, 164, 108, 0.16), transparent 28%),
+    radial-gradient(circle at top right, rgba(46, 125, 107, 0.22), transparent 24%),
+    linear-gradient(135deg, #0f0f0f 0%, #171310 46%, #0d1c17 100%);
+}
+
+.products-main {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 150px 24px 70px;
+}
+
+.products-header {
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.products-header h1 {
+  margin: 0;
+  font-size: clamp(2.4rem, 5vw, 4.2rem);
+  color: #f5f5f5;
+  letter-spacing: -0.06em;
+}
+
+.products-header p {
+  margin-top: 14px;
+  color: #bfae9f;
+  font-size: 1.05rem;
+}
+
+.section-subtitle {
+  display: inline-flex;
+  color: #c6a46c;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-size: 0.78rem;
+  font-weight: 800;
+  margin-bottom: 14px;
+}
+
+.filter-bar {
+  max-width: 950px;
+  margin: 0 auto 46px;
+  padding: 14px;
+  display: grid;
+  grid-template-columns: 1.4fr 0.8fr 1fr;
+  gap: 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.055);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 20px 55px rgba(0, 0, 0, 0.24);
+}
+
+.filter-bar input,
+.filter-bar select {
+  width: 100%;
+  padding: 14px 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  outline: none;
+  background: rgba(255, 255, 255, 0.07);
+  color: #f5f5f5;
+  font-weight: 700;
+}
+
+.filter-bar input::placeholder {
+  color: rgba(191, 174, 159, 0.78);
+}
+
+.filter-bar select option {
+  background: #12110f;
+  color: #f5f5f5;
+}
+
+.filter-bar input:focus,
+.filter-bar select:focus {
+  border-color: rgba(198, 164, 108, 0.7);
+  box-shadow: 0 0 0 4px rgba(198, 164, 108, 0.11);
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 26px;
+}
+
+.product-card {
+  text-decoration: none;
+  color: inherit;
+  border-radius: 28px;
+  padding: 18px;
+  background: rgba(255, 255, 255, 0.055);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  backdrop-filter: blur(14px);
+  box-shadow:
+    0 22px 60px rgba(0, 0, 0, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  transition: 0.35s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(198, 164, 108, 0.28);
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.32),
+    0 0 0 1px rgba(46, 125, 107, 0.16);
+}
+
+.product-image-box {
+  position: relative;
+  height: 260px;
+  border-radius: 22px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at top right, rgba(46, 125, 107, 0.32), transparent 35%),
+    linear-gradient(145deg, #171310, #2e7d6b, #c6a46c);
+}
+
+.product-image-box img,
+.fake-img {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  object-fit: cover;
+  align-items: center;
+  justify-content: center;
+  color: #c6a46c;
+  font-weight: 900;
+  transition: 0.45s ease;
+}
+
+.product-card:hover img,
+.product-card:hover .fake-img {
+  transform: scale(1.08);
+  filter: brightness(0.65);
+}
+
+.add-cart-btn {
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  transform: translate(-50%, 20px);
+  opacity: 0;
+  pointer-events: none;
+
+  width: calc(100% - 36px);
+  padding: 13px 18px;
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #c6a46c, #9f7a3e);
+  color: #140f0c;
+  font-weight: 900;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.product-card:hover .add-cart-btn {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, 0);
+}
+
+.add-cart-btn:hover {
+  box-shadow: 0 16px 40px rgba(198, 164, 108, 0.28);
+}
+
+.product-info {
+  padding: 18px 6px 4px;
+}
+
+.product-info h3 {
+  margin: 0 0 10px;
+  color: #f5f5f5;
+  font-size: 1.25rem;
+}
+
+.product-info p {
+  margin: 0;
+  color: #c6a46c;
+  font-weight: 900;
+}
+
+.empty-products {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: #bfae9f;
+  padding: 50px 0;
+}
+
+@media (max-width: 850px) {
+  .products-main {
+    padding: 140px 18px 50px;
+  }
+
+  .filter-bar {
+    grid-template-columns: 1fr;
+    border-radius: 26px;
+  }
+}
