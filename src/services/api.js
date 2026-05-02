@@ -1,4 +1,4 @@
-export const API_BASE_URL = "http://localhost:5000/api";
+export const API_BASE_URL = "https://tuftorino-production.up.railway.app/api";
 export const AUTH_CHANGED_EVENT = "tufto:auth-changed";
 export const CART_UPDATED_EVENT = "tufto:cart-updated";
 
