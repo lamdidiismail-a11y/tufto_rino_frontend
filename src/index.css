@@ -52,6 +52,12 @@
 
 body {
   margin: 0;
+  background: #0f0f0f;
+}
+
+::selection {
+  background: rgba(198, 164, 108, 0.28);
+  color: #f8f5ef;
 }
 
 #root {

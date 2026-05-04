@@ -1,4 +1,11 @@
-export const API_BASE_URL = "https://tuftorino-production.up.railway.app/api";
+const rawApiBaseUrl =
+  import.meta.env.VITE_API_BASE_URL ||
+  (import.meta.env.VITE_BACKEND_URL
+    ? `${import.meta.env.VITE_BACKEND_URL.replace(/\/+$/, "")}/api`
+    : "http://localhost:5000/api");
+
+export const API_BASE_URL = rawApiBaseUrl.replace(/\/+$/, "");
+export const BACKEND_URL = API_BASE_URL.replace(/\/api$/, "");
 export const AUTH_CHANGED_EVENT = "tufto:auth-changed";
 export const CART_UPDATED_EVENT = "tufto:cart-updated";
 
@@ -12,7 +19,7 @@ function safeParse(value) {
 
 export function getAuthSession() {
   const user = safeParse(localStorage.getItem("user"));
-  const role = localStorage.getItem("role");
+  const role = user?.role || localStorage.getItem("role");
   const token = localStorage.getItem("token");
 
   return {
@@ -56,6 +63,18 @@ export function clearAuthSession() {
       itemCount: 0,
     },
   });
+}
+
+export function resolveAssetUrl(value) {
+  if (!value) {
+    return null;
+  }
+
+  if (/^https?:\/\//i.test(value)) {
+    return value;
+  }
+
+  return value.startsWith("/") ? `${BACKEND_URL}${value}` : `${BACKEND_URL}/${value}`;
 }
 
 export async function apiRequest(path, options = {}) {

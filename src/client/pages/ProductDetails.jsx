@@ -3,8 +3,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import Navbar from "../components/Navbar.jsx";
 import Footer from "../components/Footer.jsx";
 import "./ProductDetails.css";
-
-const API_BASE_URL = "http://localhost:5000/api";
+import { apiRequest, emitCartUpdated, getAuthSession } from "../../services/api.js";
 
 function ProductDetails() {
   const { id } = useParams();
@@ -15,6 +14,8 @@ function ProductDetails() {
   const [loading, setLoading] = useState(true);
   const [adding, setAdding] = useState(false);
   const [error, setError] = useState("");
+  const [imageFailed, setImageFailed] = useState(false);
+  const [failedRelatedImages, setFailedRelatedImages] = useState({});
 
   useEffect(() => {
     const loadProduct = async () => {
@@ -22,17 +23,8 @@ function ProductDetails() {
         setLoading(true);
         setError("");
 
-        const response = await fetch(`${API_BASE_URL}/products`);
-        const data = await response.json();
-
-        if (!response.ok || !data.success) {
-          setError(data.message || "Erreur lors du chargement du produit");
-          return;
-        }
-
-        const foundProduct = data.products.find(
-          (item) => Number(item.id) === Number(id)
-        );
+        const data = await apiRequest("/products");
+        const foundProduct = data.products?.find((item) => Number(item.id) === Number(id));
 
         if (!foundProduct) {
           setError("Produit introuvable");
@@ -40,15 +32,16 @@ function ProductDetails() {
         }
 
         setProduct(foundProduct);
+        setImageFailed(false);
+        setFailedRelatedImages({});
 
-        const related = data.products
+        const related = (data.products || [])
           .filter((item) => Number(item.id) !== Number(id))
           .slice(0, 3);
 
         setRelatedProducts(related);
-      } catch (err) {
-        console.error(err);
-        setError("Erreur serveur");
+      } catch (requestError) {
+        setError(requestError.message || "Erreur serveur");
       } finally {
         setLoading(false);
       }
@@ -58,7 +51,7 @@ function ProductDetails() {
   }, [id]);
 
   const addToCart = async () => {
-    const token = localStorage.getItem("token");
+    const { token } = getAuthSession();
 
     if (!token) {
       navigate("/login");
@@ -73,29 +66,18 @@ function ProductDetails() {
     try {
       setAdding(true);
 
-      const response = await fetch(`${API_BASE_URL}/cart/add`, {
+      const data = await apiRequest("/cart/add", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
         body: JSON.stringify({
           productId: product.id,
           quantity: 1,
         }),
       });
 
-      const data = await response.json();
-
-      if (!response.ok || !data.success) {
-        alert(data.message || "Erreur lors de l’ajout au panier");
-        return;
-      }
-
-      alert("Produit ajouté au panier");
-    } catch (err) {
-      console.error(err);
-      alert("Erreur serveur");
+      emitCartUpdated(data.cart);
+      alert("Produit ajoute au panier");
+    } catch (requestError) {
+      alert(requestError.message || "Erreur lors de l'ajout au panier");
     } finally {
       setAdding(false);
     }
@@ -135,15 +117,19 @@ function ProductDetails() {
       <main className="product-details-main">
         <section className="product-hero-details">
           <div className="product-details-image">
-            {product.image ? (
-              <img src={product.image} alt={product.name} />
+            {product.image && !imageFailed ? (
+              <img
+                src={product.image}
+                alt={product.name}
+                onError={() => setImageFailed(true)}
+              />
             ) : (
               <div className="product-details-placeholder">Image produit</div>
             )}
           </div>
 
           <div className="product-details-content">
-            <span className="product-status">Disponible dès maintenant</span>
+            <span className="product-status">Disponible des maintenant</span>
 
             <h1>{product.name}</h1>
 
@@ -160,12 +146,12 @@ function ProductDetails() {
             <div className="product-info-grid">
               <div>
                 <span>Dimensions</span>
-                <strong>{product.dimensions || "Non précisé"}</strong>
+                <strong>{product.dimensions || "Non precise"}</strong>
               </div>
 
               <div>
-                <span>Catégorie</span>
-                <strong>{product.categoryName || "Non classé"}</strong>
+                <span>Categorie</span>
+                <strong>{product.categoryName || "Non classe"}</strong>
               </div>
 
               <div>
@@ -174,9 +160,9 @@ function ProductDetails() {
               </div>
 
               <div>
-                <span>Référence</span>
+                <span>Reference</span>
                 <strong>TR-{String(product.id).padStart(4, "0")}</strong>
-               </div>
+              </div>
             </div>
 
             <div className="product-detail-actions">
@@ -189,7 +175,7 @@ function ProductDetails() {
           </div>
         </section>
 
-        {relatedProducts.length > 0 && (
+        {relatedProducts.length > 0 ? (
           <section className="related-products-section">
             <div className="related-header">
               <p>Catalogue</p>
@@ -198,13 +184,18 @@ function ProductDetails() {
 
             <div className="related-products-grid">
               {relatedProducts.map((item) => (
-                <Link
-                  to={`/products/${item.id}`}
-                  className="related-product-card"
-                  key={item.id}
-                >
-                  {item.image ? (
-                    <img src={item.image} alt={item.name} />
+                <Link to={`/products/${item.id}`} className="related-product-card" key={item.id}>
+                  {item.image && !failedRelatedImages[item.id] ? (
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      onError={() =>
+                        setFailedRelatedImages((current) => ({
+                          ...current,
+                          [item.id]: true,
+                        }))
+                      }
+                    />
                   ) : (
                     <div className="related-placeholder">Image produit</div>
                   )}
@@ -217,7 +208,7 @@ function ProductDetails() {
               ))}
             </div>
           </section>
-        )}
+        ) : null}
       </main>
 
       <Footer />

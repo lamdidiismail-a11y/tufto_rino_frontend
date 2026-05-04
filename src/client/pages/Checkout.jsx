@@ -177,7 +177,7 @@ function Checkout() {
                       name="firstName"
                       value={delivery.firstName}
                       onChange={handleChange}
-                      placeholder="Ismail"
+                      placeholder="Votre prenom"
                       required
                     />
                   </label>
@@ -188,7 +188,7 @@ function Checkout() {
                       name="lastName"
                       value={delivery.lastName}
                       onChange={handleChange}
-                      placeholder="Lamdidi"
+                      placeholder="Votre nom"
                       required
                     />
                   </label>
@@ -235,7 +235,7 @@ function Checkout() {
                       name="city"
                       value={delivery.city}
                       onChange={handleChange}
-                      placeholder="Taza"
+                      placeholder="Votre ville"
                       required
                     />
                   </label>

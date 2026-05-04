@@ -1,12 +1,13 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import "./Navbar.css";
+import { clearAuthSession } from "../../services/api.js";
 
 function Navbar() {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.clear();
+    clearAuthSession();
     navigate("/login");
   };
 

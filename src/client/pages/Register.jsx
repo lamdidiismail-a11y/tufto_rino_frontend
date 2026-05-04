@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Register.css";
 import Navbar from "../components/Navbar.jsx";
 import Footer from "../components/Footer.jsx";
+import { apiRequest } from "../../services/api.js";
 
 function Register() {
   const [name, setName] = useState("");
@@ -11,94 +12,91 @@ function Register() {
 
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
     try {
-      const res = await fetch("http://localhost:5000/api/register", {
+      const data = await apiRequest("/register", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
         body: JSON.stringify({ name, email, password }),
       });
 
-      const data = await res.json();
-
       if (data.success) {
         alert(data.message);
-        navigate("/login"); // redirect login
-      } else {
-        alert(data.message);
+        navigate("/login");
+        return;
       }
+
+      alert(data.message);
     } catch (error) {
-      console.error(error);
-      alert("Erreur serveur ❌");
+      alert(error.message || "Erreur serveur");
     }
   };
 
   return (
     <>
-        <Navbar />
-        <div className="register-page">
+      <Navbar />
+
+      <div className="register-page">
         <div className="register-container">
-            <div className="register-left">
+          <div className="register-left">
             <h1>Inscription</h1>
-            <p>Créez votre compte Tufto Rino</p>
+            <p>Creez votre compte Tufto Rino</p>
 
             <form onSubmit={handleSubmit}>
-                <div className="input-group">
+              <div className="input-group">
                 <label>Nom complet</label>
                 <input
-                    type="text"
-                    placeholder="Ismail Lamdidi"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    required
+                  type="text"
+                  placeholder="Votre nom complet"
+                  value={name}
+                  onChange={(event) => setName(event.target.value)}
+                  required
                 />
-                </div>
+              </div>
 
-                <div className="input-group">
+              <div className="input-group">
                 <label>Email</label>
                 <input
-                    type="email"
-                    placeholder="email@gmail.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
+                  type="email"
+                  placeholder="email@gmail.com"
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
+                  required
                 />
-                </div>
+              </div>
 
-                <div className="input-group">
+              <div className="input-group">
                 <label>Mot de passe</label>
                 <input
-                    type="password"
-                    placeholder="********"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
+                  type="password"
+                  placeholder="********"
+                  value={password}
+                  onChange={(event) => setPassword(event.target.value)}
+                  required
                 />
-                </div>
+              </div>
 
-                <button type="submit" className="register-btn">
+              <button type="submit" className="register-btn">
                 S'inscrire
-                </button>
+              </button>
             </form>
 
             <p className="register-footer">
-                Déjà un compte ? <a href="/login">Se connecter</a>
+              Deja un compte ? <Link to="/login">Se connecter</Link>
             </p>
-            </div>
+          </div>
 
-            <div className="register-right">
+          <div className="register-right">
             <div className="brand-box">
-                <h2>Tufto Rino</h2>
-                <p>Création de tapis personnalisés premium</p>
+              <h2>Tufto Rino</h2>
+              <p>Creation de tapis personnalises premium</p>
             </div>
-            </div>
+          </div>
         </div>
-        </div>
-        <Footer/>
+      </div>
+
+      <Footer />
     </>
   );
 }

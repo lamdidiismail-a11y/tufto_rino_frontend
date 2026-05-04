@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { API_BASE_URL, saveAuthSession } from "../../services/api.js";
+import { Link, useNavigate } from "react-router-dom";
+import { apiRequest, saveAuthSession } from "../../services/api.js";
 import "./Login.css";
 import Navbar from "../components/Navbar.jsx";
 import Footer from "../components/Footer.jsx";
@@ -14,21 +14,12 @@ function Login() {
     event.preventDefault();
 
     try {
-      const response = await fetch(`${API_BASE_URL}/login`, {
+      const data = await apiRequest("/login", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+
         body: JSON.stringify({ email, password }),
       });
-
-      const data = await response.json();
-
-      if (!response.ok || !data.success) {
-        alert(data.message || "Email ou mot de passe incorrect");
-        return;
-      }
-
+      
       saveAuthSession({
         user: data.user,
         token: data.token,
@@ -36,13 +27,12 @@ function Login() {
 
       navigate(data.user.role === "admin" ? "/admin" : "/");
     } catch (error) {
-      console.error(error);
-      alert("Erreur serveur");
+      alert(error.message || "Erreur serveur");
     }
   };
 
   return (
-      
+
     <>
       <Navbar />
 
@@ -50,7 +40,7 @@ function Login() {
         <div className="login-container">
           <div className="login-left">
             <h1>Connexion</h1>
-            <p>Accédez à votre espace Tufto Rino</p>
+            <p>Accedez a votre espace Tufto Rino</p>
 
             <form onSubmit={handleSubmit}>
               <div className="input-group">
@@ -81,14 +71,14 @@ function Login() {
             </form>
 
             <p className="login-footer">
-              Pas de compte ? <a href="/register">Créer un compte</a>
+              Pas de compte ? <Link to="/register">Creer un compte</Link>
             </p>
           </div>
 
           <div className="login-right">
             <div className="login-brand">
               <h2>Tufto Rino</h2>
-              <p>Création de tapis personnalisés haut de gamme</p>
+              <p>Creation de tapis personnalises haut de gamme</p>
             </div>
           </div>
         </div>
