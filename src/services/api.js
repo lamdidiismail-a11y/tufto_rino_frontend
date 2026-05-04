@@ -3,7 +3,7 @@ const rawApiBaseUrl =
   import.meta.env.VITE_API_BASE_URL ||
   (import.meta.env.VITE_API_URL
     ? `${import.meta.env.VITE_API_URL.replace(/\/+$/, "")}/api`
-    : "http://localhost:5000/api");
+    : "https://tuftorino-production.up.railway.app/api");
 
 export const API_BASE_URL = rawApiBaseUrl.replace(/\/+$/, "");
 export const BACKEND_URL = API_BASE_URL.replace(/\/api$/, "");
@@ -95,7 +95,9 @@ export async function apiRequest(path, options = {}) {
     headers.set("Authorization", `Bearer ${token}`);
   }
 
-  const response = await fetch(`${API_BASE_URL}${path}`, {
+  const cleanPath = path.startsWith("/") ? path : `/${path}`;
+
+  const response = await fetch(`${API_BASE_URL}${cleanPath}`, {
     ...options,
     headers,
   });
