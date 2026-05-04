@@ -1,22 +1,27 @@
+// === API BASE URL CONFIG ===
 const rawApiBaseUrl =
   import.meta.env.VITE_API_BASE_URL ||
-  (import.meta.env.VITE_BACKEND_URL
-    ? `${import.meta.env.VITE_BACKEND_URL.replace(/\/+$/, "")}/api`
+  (import.meta.env.VITE_API_URL
+    ? `${import.meta.env.VITE_API_URL.replace(/\/+$/, "")}/api`
     : "http://localhost:5000/api");
 
 export const API_BASE_URL = rawApiBaseUrl.replace(/\/+$/, "");
 export const BACKEND_URL = API_BASE_URL.replace(/\/api$/, "");
+
+// === EVENTS ===
 export const AUTH_CHANGED_EVENT = "tufto:auth-changed";
 export const CART_UPDATED_EVENT = "tufto:cart-updated";
 
+// === UTILS ===
 function safeParse(value) {
   try {
     return value ? JSON.parse(value) : null;
-  } catch (error) {
+  } catch {
     return null;
   }
 }
 
+// === AUTH SESSION ===
 export function getAuthSession() {
   const user = safeParse(localStorage.getItem("user"));
   const role = user?.role || localStorage.getItem("role");
@@ -54,6 +59,7 @@ export function clearAuthSession() {
   localStorage.removeItem("role");
   localStorage.removeItem("token");
   emitAuthChanged();
+
   emitCartUpdated({
     items: [],
     summary: {
@@ -65,18 +71,18 @@ export function clearAuthSession() {
   });
 }
 
+// === ASSET URL (images) ===
 export function resolveAssetUrl(value) {
-  if (!value) {
-    return null;
-  }
+  if (!value) return null;
 
-  if (/^https?:\/\//i.test(value)) {
-    return value;
-  }
+  if (/^https?:\/\//i.test(value)) return value;
 
-  return value.startsWith("/") ? `${BACKEND_URL}${value}` : `${BACKEND_URL}/${value}`;
+  return value.startsWith("/")
+    ? `${BACKEND_URL}${value}`
+    : `${BACKEND_URL}/${value}`;
 }
 
+// === API REQUEST ===
 export async function apiRequest(path, options = {}) {
   const { token } = getAuthSession();
   const headers = new Headers(options.headers || {});
@@ -95,10 +101,12 @@ export async function apiRequest(path, options = {}) {
   });
 
   const contentType = response.headers.get("content-type") || "";
-  const data = contentType.includes("application/json") ? await response.json() : null;
+  const data = contentType.includes("application/json")
+    ? await response.json()
+    : null;
 
   if (!response.ok) {
-    const error = new Error(data?.message || "Request failed");
+    const error = new Error(data?.message || "Erreur serveur");
     error.status = response.status;
     error.data = data;
     throw error;
